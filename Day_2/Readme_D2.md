@@ -17,6 +17,14 @@
 ![Timing_Analysis](https://img.shields.io/badge/Timing_Analysis-Ideal%20Clks%20Before%20CTS-success)
 > The Placement and Routing (P&R) is the next stage that converts a synthesized gate-level netlist (obtained from floorplannig) into a physical layout that can be manufactured on silicon. During this stage, logical gates are mapped to physical standard cells, placed on the chip, optimized, and finally interconnected through routing. 
 
+## Standard Cell Design Flow and Characterization
+
+![Standard_Cell_Library](https://img.shields.io/badge/Standard_Cell_Library-Std%20Cells%20Macros%20IP%20De%Cap-blue)
+![STD_Cell_Design_FLow](https://img.shields.io/badge/Std_Cell_Design_Flow-Inputs%20Design%20Characterization-green)
+![Inputs](https://img.shields.io/badge/Inputs-PDKs%20User%20Defined-orange)
+![Design](https://img.shields.io/badge/Design-Circuit%20Design%20Layout%20Design%20Characterization-red)
+![Output](https://img.shields.io/badge/Output-CDL%20GDSII%20LEF%20LIB-success)
+> Standard cell design is the process of developing reusable digital building blocks such as inverters, buffers, and logic gates for ASIC design. Starting with foundary PDK inputs, DRC/LVS rules, SPICE models and user specifications, cells undergo circuit design, layout design, parasitic extraction, and characterization to generate timing, power, and noise (.lib) models. The resulting LIB, LEF and GDSII files enable synthesis, STA, placement, routing, and signoff.
 ---
 ## 📖 FLOORPLANNING Overview
 
@@ -534,7 +542,395 @@ A preliminary timing check is performed after placement using ideal clocks to ve
 
 
 ---
+---
 
+## Standard Cell Design Flow and Characterization
+
+![Standard_Cell_Library](https://img.shields.io/badge/Standard_Cell_Library-Std%20Cells%20Macros%20IP%20De%Cap-blue)
+![STD_Cell_Design_FLow](https://img.shields.io/badge/Std_Cell_Design_Flow-Inputs%20Design%20Characterization-green)
+![Inputs](https://img.shields.io/badge/Inputs-PDKs%20User%20Defined-orange)
+![Design](https://img.shields.io/badge/Design-Circuit%20Design%20Layout%20Design%20Characterization-red)
+![Output](https://img.shields.io/badge/Output-CDL%20GDSII%20LEF%20LIB-success)
+---
+### Overview - STANDARD CELL DESIGN FLOW
+
+In a digital IC design flow, the final placed-and-routed design consists of many logic elements such as:
+
+- Inverters
+- Buffers
+- AND gates
+- OR gates
+- Flip-flops
+- Latches
+- Clock Gating Cells (ICG)
+
+These logic elements are called **Standard Cells** and are stored inside a **Library**.
+
+---
+
+
+
+## 1. Standard Cell Library
+
+A library is a collection of cells used by synthesis, STA, CTS, placement, and routing tools.
+
+The library contains:
+
+- Standard cells
+- Decap cells
+- Macros
+- IP blocks
+  
+### Library Characteristics
+
+#### Each standard cell has a Different Functionality - A unique Logic Function
+
+- Inverter (INV)
+- Buffer (BUF)
+- NAND
+- NOR
+- XOR
+- Flip-Flop
+
+#### Has Different Drive Strengths
+
+- BUF_X1
+- BUF_X2
+- BUF_X4
+- BUF_X8
+
+
+| Higher Drive-Strength Cells | Lower Drive-Strength Cells |
+|-----------------------------|----------------------------|
+| Drive larger loads | Drive smaller loads |
+| Have larger transistor widths | Have smaller transistor widths |
+| Occupy more area | Occupy less area |
+| Typically consume more power | Consume less power |
+| Provide faster signal transitions | Suitable for lighter loads |
+
+#### Different Threshold Voltages (VT)
+
+Libraries usually contain:
+
+- LVT (Low VT)
+- SVT (Standard VT)
+- HVT (High VT)
+
+| LVT (Low Threshold Voltage) Cells | HVT (High Threshold Voltage) Cells |
+|-----------------------------------|------------------------------------|
+| Faster switching speed | Slower switching speed |
+| Higher leakage power | Lower leakage power |
+| Often used in critical timing paths | Often used in non-critical timing paths |
+| Higher performance | Better power efficiency |
+
+These cells are heavily used during timing optimization and leakage recovery.
+
+---
+
+## 2. Inputs Required for Cell Design
+
+- Process Design Kit (PDK)
+- User-Defined Specifications
+
+### Process Design Kit (PDK)
+
+The PDK is provided by the foundry.
+
+It contains:
+- DRC Rules (Design Rule Check)
+- LVS Rules (Layout Versus Schematic)
+- SPICE Models
+
+
+#### DRC Rules (Design Rule Check)
+
+Examples:
+
+```text
+Poly Width = 2λ
+Poly Extension over Active = 3λ
+Poly-to-Active Spacing = 1λ
+```
+These rules ensure manufacturability.
+
+#### LVS Rules (Layout Versus Schematic)
+
+Ensures:
+
+```text
+Layout ≡ Schematic
+```
+
+#### SPICE Models
+
+Foundry-provided transistor models containing:
+
+- Threshold voltage (VTH)
+- Oxide thickness (TOX)
+- Mobility parameters
+- Junction capacitances
+- Process-specific parameters
+
+Used for circuit simulation and transistor modeling.
+
+
+
+### User-Defined Specifications
+
+These specifications come from the library architect or top-level designer.
+- Cell Height : Determined by the spacing between Power Rail (VDD) and Ground Rail (VSS)
+- Drive Strength Range : say from X1 to X10
+- Supply Voltage : say 0.8, 1.0, 1.2
+- Metal Layer Requirements : Libraries may be constrained to specific metal layers such as METAL1, METAL2, METAL3
+- Pin Locations : Input/output pins may be required at predefined locations.
+- Drawn Gate Length : Specified according to process-node requirements.
+
+###### Cell Height
+
+```text
+Power Rail (VDD)
+        ↓
+     Cell Height
+        ↑
+Ground Rail (VSS)
+
+All standard cells must maintain the same height.
+```
+
+---
+
+## 3. Design Phase
+
+The design stage consists of:
+
+- Circuit Design
+- Layout Design
+- Characterization
+
+
+### Circuit Design
+
+Implement the required logic function using PMOS and NMOS transistors.
+
+##### Transistor Sizing
+
+Determine:
+
+```text
+Wp/Lp
+Wn/Ln
+```
+
+to satisfy:
+
+- Drive current requirements
+- Switching threshold
+- Delay targets
+- Noise margin requirements
+
+SPICE simulations are used extensively during sizing.
+
+##### Output of Circuit Design
+
+```text
+CDL (Circuit Description Language)
+```
+
+### Layout Design
+
+Convert the transistor-level schematic into a manufacturable physical layout.
+
+#### Layout Design Flow
+- Step 1: Implement the Function - Build the transistor-level circuit
+- Step 2: Generate Network Graphs
+  - PMOS Network Graph
+  - NMOS Network Graph
+- Step 3: Find Euler Path
+  - Reduced diffusion breaks
+  - Reduced area
+  - Better performance
+- Step 4: Create Stick Diagram
+  - A → C → E → F → D → B
+  - Poly gates are arranged according to the Euler path.
+- Step 5: Generate Physical Layout
+  - Create the layout while satisfying:
+    - DRC rules
+    - LVS requirements
+    - Metal constraints
+    - Pin constraints
+    - User specifications
+- Step 6: Draw Layout in CAD Tool - Magic Layout Tool
+
+### Outputs of Layout Design
+
+##### GDSII
+
+Industry-standard layout database used for fabrication.
+
+Contains:
+
+- All geometric information
+- Mask data
+
+##### LEF (Library Exchange Format)
+
+Contains:
+
+- Cell width
+- Cell height
+- Pin locations
+- Placement information
+
+Used by place-and-route tools.
+
+##### Extracted SPICE Netlist from layout
+
+Contains parasitic:
+
+```text
+R (Resistance)
+C (Capacitance)
+```
+
+Used for accurate timing and power analysis.
+
+
+### Characterization
+
+Generate timing, power, and noise models required by EDA tools.
+- Inputs to Characterization
+- Characterization Flow
+- Characterization Tool
+- Characterization Outputs
+
+#### Inputs to Characterization
+
+- Layout (GDS/LEF)
+- Circuit netlist
+- Extracted SPICE netlist
+- Subcircuits
+- NMOS/PMOS model files
+
+#### Characterization Flow
+- Step 1 : Read transistor model files.
+- Step 2 : Read extracted SPICE netlist.
+- Step 3 : Recognize cell functionality - Inverter, Buffer, NAND, NOR etc.
+- Step 4 : Read subcircuit descriptions.
+- Step 5 : Apply power supplies - VDD and VSS
+- Step 6 : Apply input stimulus.
+  - Rising transition
+  - Falling transition
+  - Different slew rates
+- Step 7 : Apply output load capacitance.
+  - Different loads are swept during characterization.
+- Step 8 : Run simulations.
+          - .tran : for transient analysis.
+
+#### Characterization Tool
+
+characterization software: GUNA
+
+Inputs:
+
+- SPICE models
+- Extracted netlists
+- Stimulus definitions
+- Load capacitances
+
+#### Characterization Outputs
+
+- Timing models
+- Power models
+- Noise models
+
+##### Timing Library (.lib)
+
+Contains:
+
+- Cell delay
+- Rise delay
+- Fall delay
+- Transition time
+- Setup time
+- Hold time
+
+Used by:
+
+- Synthesis
+- Static Timing Analysis (STA)
+- Place-and-Route
+
+##### Power Library
+
+Contains:
+
+- Dynamic power
+- Internal power
+- Leakage power
+
+##### Noise Library
+
+Contains:
+
+- Noise characteristics
+- Noise margins
+- Crosstalk information
+
+---
+
+#### Complete Standard Cell Development Flow
+
+```text
+Foundry Inputs (PDK)
+        +
+User Specifications
+        │
+        ▼
+  Circuit Design
+        │
+        ▼
+   Layout Design
+        │
+        ▼
+Parasitic Extraction
+        │
+        ▼
+ Characterization
+        │
+        ▼
+ ┌───────────────┐
+ │   .LIB File   │
+ │   LEF File    │
+ │   GDSII File  │
+ └───────────────┘
+        │
+        ▼
+Used in:
+- Logic Synthesis
+- Static Timing Analysis (STA)
+- Floorplanning
+- Placement
+- Clock Tree Synthesis (CTS)
+- Routing
+- Signoff
+```
+
+
+---
+
+### Key Takeaways - STANDARD CELL CHARACTERIZATION
+
+Although a standard cell such as an **inverter** appears simple, it undergoes a complete development flow involving:
+
+✅ PDK and user specifications  
+✅ Circuit design 
+✅ Layout design  
+✅ Parasitic extraction 
+✅ Characterization 
+
+
+The final result is a characterized library containing **timing, power, and noise models (.lib)** 
+along with **LEF** and **GDSII** files, which are essential for the digital backend design flow.
 #### 📂 Resources
 
 ```text
