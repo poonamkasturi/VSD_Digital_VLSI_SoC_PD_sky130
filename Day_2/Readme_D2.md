@@ -1,15 +1,24 @@
-# 🖥️ VLSI Physical Design: Floorplanning Fundamentals
+# 🖥️ VLSI Physical Design: DAY_2
+
+## Floorplanning Fundamentals
 
 ![Domain](https://img.shields.io/badge/Domain-VLSI-blue)
 ![Flow](https://img.shields.io/badge/Flow-Physical%20Design-green)
 ![Stage](https://img.shields.io/badge/Stage-Floorplanning-orange)
 ![License](https://img.shields.io/badge/License-MIT-red)
 ![Status](https://img.shields.io/badge/Status-Learning%20Project-success)
-
 > A comprehensive study of **VLSI Physical Design Floorplanning**, covering Core & Die estimation, Utilization Factor, Aspect Ratio, Macro Placement, Decoupling Capacitors, Power Planning, Pin Placement, and Placement Blockages.
 
+## Placement, Routing, and Library Characterization
+![Standard_Cell_Library](https://img.shields.io/badge/Standard_Cell_Library-Physical%20Functional%20Timing%20information-blue)
+![Placement](https://img.shields.io/badge/Placement-Logical_Gate%20Mapping%20to%20Std_Cell-green)
+![Placement_Optimization](https://img.shields.io/badge/Placement_Optimization-Maintain%20Signal%20Integrity-orange)
+![Routing](https://img.shields.io/badge/Routing-Metal%20Layers-red)
+![Timing_Analysis](https://img.shields.io/badge/Timing_Analysis-Ideal%20Clks%20Before%20CTS-success)
+> The Placement and Routing (P&R) is the next stage that converts a synthesized gate-level netlist (obtained from floorplannig) into a physical layout that can be manufactured on silicon. During this stage, logical gates are mapped to physical standard cells, placed on the chip, optimized, and finally interconnected through routing. 
+
 ---
-# 📖 Overview
+## 📖 FLOORPLANNING Overview
 
 Floorplanning is the first stage of the **Physical Design (PD)** flow. It determines:
 
@@ -355,9 +364,19 @@ Examples:
 
 ---
 
+## 🎯 Quick Revision - Floorplan
+
+| Metric | Formula |
+|----------|----------|
+| Utilization | Netlist Area / Core Area |
+| Aspect Ratio | Height / Width |
+| AR = 1 | Square Core |
+| AR ≠ 1 | Rectangular Core |
 
 
-## ✅ Summary
+---
+
+## ✅ Key Takeaways - Floorplan
 
 Floorplanning forms the foundation of successful Physical Design.
 
@@ -378,18 +397,128 @@ After floorplanning is completed, the design proceeds to:
 Placement → CTS → Routing → Signoff
 ```
 
+**Floorplanning = Creating an optimized chip layout framework before Placement & Routing (P&R).**
+
+---
 ---
 
-## 🎯 Quick Revision
+## Placement, Routing and Library Characterization
 
-| Metric | Formula |
-|----------|----------|
-| Utilization | Netlist Area / Core Area |
-| Aspect Ratio | Height / Width |
-| AR = 1 | Square Core |
-| AR ≠ 1 | Rectangular Core |
+![Standard_Cell_Library](https://img.shields.io/badge/Standard_Cell_Library-Physical%20Functional%20Timing%20information-blue)
+![Placement](https://img.shields.io/badge/Placement-Logical_Gate%20Mapping%20to%20Std_Cell-green)
+![Placement_Optimization](https://img.shields.io/badge/Placement_Optimization-Maintain%20Signal%20Integrity-orange)
+![Routing](https://img.shields.io/badge/Routing-Metal%20Layers-red)
+![Timing_Analysis](https://img.shields.io/badge/Timing_Analysis-Ideal%20Clks%20Before%20CTS-success)
+---
 
-**Floorplanning = Creating an optimized chip layout framework before Placement & Routing (P&R).**
+### 📖 PLACE_n_ROUTE (PnR) Overview
+
+The Placement and Routing (P&R) is the next stage that converts a synthesized gate-level netlist (obtained from floorplannig) into a physical layout that can be manufactured on silicon. During this stage, logical gates are mapped to physical standard cells, placed on the chip, optimized, and finally interconnected through routing. 
+
+
+### Standard Cell Library
+A standard cell library contains the physical, functional, and timing information of cells such as AND gates, OR gates, buffers, and flip-flops. 
+
+**Library Information:**
+- Cell dimensions (width & height)
+- Pin locations
+- Propagation delay
+- Setup & hold times
+- Slew and timing data
+- Multiple drive-strength variants (X1, X2, X4, etc.)
+
+Multiple drive-strength versions of the same cell are available to balance timing, power, and area.
+
+     | Cell   |   Size |  Delay | 
+     |--------|--------|--------| 
+     | AND_X1 | Small  | Higher | 
+     | AND_X2 | Medium | Lower  | 
+     | AND_X4 | Large  | Lowest | 
+     
+Characteristics: 
+- Larger cells have lower delay. 
+- Larger cells can drive larger loads. 
+- Larger cells consume more area and power.
+
+---
+
+### Placement 
+After floorplanning, logical gates are mapped to physical standard cells and placed inside the core area. 
+This process of assigning physical implementations to logical gates is called **binding the netlist with physical cells**
+
+The objective is to:
+- Minimize wire length
+- Reduce delay
+- Improve timing
+- Avoid congestion
+- Optimize area utilization
+
+Connected cells are placed close together for better performance.
+
+---
+### Placement Optimization
+Long interconnects introduce resistance and capacitance, causing delay and signal degradation. To maintain signal integrity, **buffers/repeaters** are inserted along long routes.
+
+```text
+Before:
+DIN ─────────────── FF
+
+After:
+DIN → BUF → BUF → FF
+```
+**Benefits:** include Better signal integrity, Reduced slew degradation, Improved timing
+
+**Trade-off:** is Increased area and power
+
+Critical timing paths may use **cell abutment**, where cells are placed adjacent to reduce wire delay.
+
+```text
+FF1 | Gate1 | Gate2 | FF2
+```
+Cell Abutment provides advantage in terms of Minimal wire delay, Higher performance and Better timing closure
+
+
+---
+
+### Routing
+
+Routing connects all placed cells using multiple metal layers while avoiding wire crossings and shorts.
+
+---
+
+### Timing Analysis
+A preliminary timing check is performed after placement using ideal clocks to verify timing feasibility before CTS and routing.
+**ideal clocks**: imply Clock delay is 0 and Clock skew is also 0
+
+### OpenLane Placement Flow
+
+1. **Global Placement**
+   - Minimizes HPWL (Half-Perimeter Wire Length)
+   - Reduces congestion
+
+2. **Detailed Placement**
+   - Legalizes placement
+   - Removes overlaps
+   - Aligns cells to standard rows
+
+---
+
+
+### Key Takeaways - PnR
+
+✅ Standard cell libraries provide physical and timing data.  
+✅ Logical gates are mapped to physical standard cells.  
+✅ Placement determines cell locations on the chip.  
+✅ Placement Optimization minimizes wire length and improves timing.  
+✅ Buffers improve signal integrity on long nets. 
+✅ Cell abutment helps critical timing paths.  
+✅ Routing connects cells using multiple metal layers.  
+✅ Library characterization drives synthesis, placement, CTS, routing, and STA.  
+✅ OpenLane uses **Global Placement → Detailed Placement (Legalization)**.
+
+
+---
+
 #### 📂 Resources
 
 ```text
@@ -397,6 +526,3 @@ Placement → CTS → Routing → Signoff
     ├── lecture_videos
     └── references.md
 ```
-
----
-
