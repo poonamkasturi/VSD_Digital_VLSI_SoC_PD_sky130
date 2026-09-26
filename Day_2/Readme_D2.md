@@ -568,9 +568,10 @@ These logic elements are called **Standard Cells** and are stored inside a **Lib
 
 ---
 
+<img width="656" height="388" alt="image" src="https://github.com/user-attachments/assets/73c9a688-dfe7-417d-8178-ef8af04d3645" />
 
 
-## 1. Standard Cell Library
+## Standard Cell Library
 
 A library is a collection of cells used by synthesis, STA, CTS, placement, and routing tools.
 
@@ -607,6 +608,7 @@ The library contains:
 | Occupy more area | Occupy less area |
 | Typically consume more power | Consume less power |
 | Provide faster signal transitions | Suitable for lighter loads |
+<img width="644" height="407" alt="image" src="https://github.com/user-attachments/assets/cf4f959a-e547-43c8-bf41-4b4dae64f9d5" />
 
 #### Different Threshold Voltages (VT)
 
@@ -625,9 +627,17 @@ Libraries usually contain:
 
 These cells are heavily used during timing optimization and leakage recovery.
 
----
 
-## 2. Inputs Required for Cell Design
+---
+<img width="609" height="394" alt="image" src="https://github.com/user-attachments/assets/0aae2e7c-987b-456b-9504-d287b16cb556" />
+
+
+## Standard Cell Library Design Flow
+- 1. Inputs
+- 2. Design Phase - Circuit Design, Layout Design, Characterization
+- 3. Outputs from each Design Stage
+
+## 1. Inputs Required for Cell Design
 
 - Process Design Kit (PDK)
 - User-Defined Specifications
@@ -696,10 +706,15 @@ Ground Rail (VSS)
 
 All standard cells must maintain the same height.
 ```
+<img width="459" height="417" alt="image" src="https://github.com/user-attachments/assets/c757e752-e2e9-4ed1-96a1-0df568b809df" />
+<img width="445" height="397" alt="image" src="https://github.com/user-attachments/assets/c928e1f2-e9e6-44fa-b349-5c69b471208a" />
+<img width="619" height="393" alt="image" src="https://github.com/user-attachments/assets/1d9ed633-3a29-473c-b12a-6171336f5ba6" />
+
+
 
 ---
 
-## 3. Design Phase
+## 2. Design Phase
 
 The design stage consists of:
 
@@ -761,6 +776,11 @@ Convert the transistor-level schematic into a manufacturable physical layout.
     - User specifications
 - Step 6: Draw Layout in CAD Tool - Magic Layout Tool
 
+<img width="610" height="398" alt="image" src="https://github.com/user-attachments/assets/c8dfa201-f2f3-431b-8872-43d99cd20811" />
+<img width="625" height="397" alt="image" src="https://github.com/user-attachments/assets/551ee20d-0d41-4770-b70a-03767aa4a007" />
+<img width="619" height="402" alt="image" src="https://github.com/user-attachments/assets/628343c2-a1e3-45c8-ac2f-cb7aaadfe03b" />
+
+
 ### Outputs of Layout Design
 
 ##### GDSII
@@ -794,6 +814,7 @@ C (Capacitance)
 
 Used for accurate timing and power analysis.
 
+<img width="638" height="417" alt="image" src="https://github.com/user-attachments/assets/1e1c2190-553a-4bc4-a1a8-43cc1689c4ca" />
 
 ### Characterization
 
@@ -825,6 +846,11 @@ Generate timing, power, and noise models required by EDA tools.
   - Different loads are swept during characterization.
 - Step 8 : Run simulations.
           - .tran : for transient analysis.
+
+<img width="656" height="435" alt="image" src="https://github.com/user-attachments/assets/1323d7f6-1098-4e52-ada8-472ee1651933" />
+<img width="656" height="407" alt="image" src="https://github.com/user-attachments/assets/7ba179cd-13b7-4cd0-8e03-dfacca95e740" />
+<img width="626" height="401" alt="image" src="https://github.com/user-attachments/assets/bb6b3f14-882c-4b84-84b3-f0623a4c3dd0" />
+
 
 #### Characterization Tool
 
@@ -877,44 +903,6 @@ Contains:
 - Crosstalk information
 
 ---
-
-#### Complete Standard Cell Development Flow
-
-```text
-Foundry Inputs (PDK)
-        +
-User Specifications
-        │
-        ▼
-  Circuit Design
-        │
-        ▼
-   Layout Design
-        │
-        ▼
-Parasitic Extraction
-        │
-        ▼
- Characterization
-        │
-        ▼
- ┌───────────────┐
- │   .LIB File   │
- │   LEF File    │
- │   GDSII File  │
- └───────────────┘
-        │
-        ▼
-Used in:
-- Logic Synthesis
-- Static Timing Analysis (STA)
-- Floorplanning
-- Placement
-- Clock Tree Synthesis (CTS)
-- Routing
-- Signoff
-```
-
 
 ---
 
