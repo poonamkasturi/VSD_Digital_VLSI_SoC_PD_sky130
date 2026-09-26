@@ -415,6 +415,8 @@ Placement → CTS → Routing → Signoff
 
 The Placement and Routing (P&R) is the next stage that converts a synthesized gate-level netlist (obtained from floorplannig) into a physical layout that can be manufactured on silicon. During this stage, logical gates are mapped to physical standard cells, placed on the chip, optimized, and finally interconnected through routing. 
 
+<img width="563" height="411" alt="image" src="https://github.com/user-attachments/assets/37d7b04f-7232-4c01-b486-7e6c80cdf59a" />
+
 
 ### Standard Cell Library
 A standard cell library contains the physical, functional, and timing information of cells such as AND gates, OR gates, buffers, and flip-flops. 
@@ -440,6 +442,9 @@ Characteristics:
 - Larger cells can drive larger loads. 
 - Larger cells consume more area and power.
 
+<img width="676" height="198" alt="image" src="https://github.com/user-attachments/assets/103042e8-ce5d-4a68-a51c-87745e877ce9" />
+
+
 ---
 
 ### Placement 
@@ -454,6 +459,9 @@ The objective is to:
 - Optimize area utilization
 
 Connected cells are placed close together for better performance.
+
+<img width="694" height="376" alt="image" src="https://github.com/user-attachments/assets/0999fffe-16fe-41b3-b191-da0e9c3419bc" />
+
 
 ---
 ### Placement Optimization
@@ -476,6 +484,13 @@ Critical timing paths may use **cell abutment**, where cells are placed adjacent
 FF1 | Gate1 | Gate2 | FF2
 ```
 Cell Abutment provides advantage in terms of Minimal wire delay, Higher performance and Better timing closure
+
+<img width="703" height="392" alt="image" src="https://github.com/user-attachments/assets/6185d314-ab7d-4f13-87b9-543a9b76a8f4" />
+<img width="699" height="402" alt="image" src="https://github.com/user-attachments/assets/15ab57f4-1970-429c-b705-50f07d1c3dc0" />
+<img width="697" height="400" alt="image" src="https://github.com/user-attachments/assets/5d8c0ee4-23e0-4d87-9983-3c0ca9d66f06" />
+<img width="705" height="393" alt="image" src="https://github.com/user-attachments/assets/2cb6ec6b-adc2-49cb-8692-416896fbff47" />
+
+
 
 
 ---
@@ -502,6 +517,7 @@ A preliminary timing check is performed after placement using ideal clocks to ve
    - Aligns cells to standard rows
 
 ---
+<img width="664" height="381" alt="image" src="https://github.com/user-attachments/assets/0b5d10fb-9001-4576-b92e-a4363845610a" />
 
 
 ### Key Takeaways - PnR
