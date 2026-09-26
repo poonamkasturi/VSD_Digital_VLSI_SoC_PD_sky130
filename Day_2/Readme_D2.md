@@ -25,6 +25,14 @@
 ![Design](https://img.shields.io/badge/Design-Circuit%20Design%20Layout%20Design%20Characterization-red)
 ![Output](https://img.shields.io/badge/Output-CDL%20GDSII%20LEF%20LIB-success)
 > Standard cell design is the process of developing reusable digital building blocks such as inverters, buffers, and logic gates for ASIC design. Starting with foundary PDK inputs, DRC/LVS rules, SPICE models and user specifications, cells undergo circuit design, layout design, parasitic extraction, and characterization to generate timing, power, and noise (.lib) models. The resulting LIB, LEF and GDSII files enable synthesis, STA, placement, routing, and signoff.
+
+## Timing Characterization: Thresholds, Propagation Delay, and Transition Time
+
+![Slew_Rise](https://img.shields.io/badge/Slew_Rise-Slew%20Low%20Rise%20Threshold%20Slew%20High%20Rise%20Threshols-orange)
+![Slew_Fall](https://img.shields.io/badge/Slew_Fall-Slew%20Low%20Fall%20Threshold%20Slew%20High%20Fall%20Threshols-red)
+![Delay_Rise](https://img.shields.io/badge/Delay_Rise-In%20Rise%20Threshold%20Out%20Rise%20Threshols-green)
+![Delay_Fall](https://img.shields.io/badge/Delay_Fall-In%20Fall%20Threshold%20Out%20Fall%20Threshols-success)
+> Timing characterization relies on specific voltage threshold definitions that are used to measure: Propagation delay and Transition time (slew)
 ---
 ## 📖 FLOORPLANNING Overview
 
@@ -53,7 +61,6 @@ A good floorplan significantly improves:
 ✅ Chip Area Utilization
 
 ---
----
 
 ## 🏗 Core and Die
 
@@ -68,11 +75,8 @@ A good floorplan significantly improves:
 
 ---
 
-
 <img width="500" height="350" alt="image" src="https://github.com/user-attachments/assets/ea868ba8-66b8-4bcd-b8aa-e5e2a86c2628" />
 <img width="500" height="350" alt="image" src="https://github.com/user-attachments/assets/a791a7bd-21b7-4614-a5a4-96cd140822ee" />
-
----
 
 <img width="693" height="298" alt="image" src="https://github.com/user-attachments/assets/ac61bf9c-f12a-482b-920b-74687afd14b0" />
 
@@ -781,6 +785,8 @@ Convert the transistor-level schematic into a manufacturable physical layout.
 <img width="619" height="402" alt="image" src="https://github.com/user-attachments/assets/628343c2-a1e3-45c8-ac2f-cb7aaadfe03b" />
 
 
+
+
 ### Outputs of Layout Design
 
 ##### GDSII
@@ -903,24 +909,257 @@ Contains:
 - Crosstalk information
 
 ---
-
----
-
 ### Key Takeaways - STANDARD CELL CHARACTERIZATION
 
 Although a standard cell such as an **inverter** appears simple, it undergoes a complete development flow involving:
 
-✅ PDK and user specifications  
-✅ Circuit design 
-✅ Layout design  
-✅ Parasitic extraction 
-✅ Characterization 
+✅ PDK and user specifications
+✅ Circuit design
+✅ Layout design
+✅ Parasitic extraction
+✅ Characterization
 
 
 The final result is a characterized library containing **timing, power, and noise models (.lib)** 
 along with **LEF** and **GDSII** files, which are essential for the digital backend design flow.
-#### 📂 Resources
 
+---
+---
+
+## Timing Characterization: Thresholds, Propagation Delay, and Transition Time
+
+![Slew_Rise](https://img.shields.io/badge/Slew_Rise-Slew%20Low%20Rise%20Threshold%20Slew%20High%20Rise%20Threshols-orange)
+![Slew_Fall](https://img.shields.io/badge/Slew_Fall-Slew%20Low%20Fall%20Threshold%20Slew%20High%20Fall%20Threshols-red)
+![Delay_Rise](https://img.shields.io/badge/Delay_Rise-In%20Rise%20Threshold%20Out%20Rise%20Threshols-green)
+![Delay_Fall](https://img.shields.io/badge/Delay_Fall-In%20Fall%20Threshold%20Out%20Fall%20Threshols-success)
+
+---
+### Overview - TIMING CHARACTERIZATION
+
+Timing characterization relies on specific voltage threshold definitions that are used to measure:
+
+- Propagation delay
+- Transition time (slew)
+- Current waveforms
+- Timing models used in `.lib` files
+
+These thresholds are important because characterization tools such as GUNA use them as input variables for timing, power, and noise library generation.
+
+---
+<img width="632" height="393" alt="image" src="https://github.com/user-attachments/assets/50ef64ff-c38d-4d0b-9e6c-35f32e46a020" />
+
+### 1. Timing Threshold Definitions
+
+A waveform requires reference points to measure its slope (slew) and delay.
+
+#### Slew Threshold Parameters
+
+##### Slew Low Rise Threshold
+
+- Defines the lower reference point for a rising waveform.
+- Typically:
+  - 20% of VDD
+  - Sometimes 30% of VDD
+
+##### Slew High Rise Threshold
+
+- Defines the upper reference point for a rising waveform.
+- Typically:
+  - 80% of VDD
+  - Sometimes 70% of VDD
+
+##### Slew Low Fall Threshold
+
+- Lower threshold for a falling waveform typically 20% of VDD
+
+##### Slew High Fall Threshold
+
+- Upper threshold for a falling waveform typically 80% of VDD
+
+
+---
+
+#### Delay Threshold Parameters
+
+Delay measurement requires one point on the input waveform and one point on the output waveform.
+
+##### In Rise Threshold
+
+- Input rising waveform reference point.
+- Typically chosen at 50% of VDD.
+
+##### Out Rise Threshold
+
+- Output rising waveform reference point.
+- Typically chosen at 50% of VDD.
+
+---
+
+##### In Fall Threshold
+
+- Input falling waveform reference point.
+- Typically chosen at 50% of VDD.
+
+##### Out Fall Threshold
+
+- Output falling waveform reference point.
+- Typically chosen at 50% of VDD.
+
+---
+
+
+### 2. Propagation Delay
+
+Propagation delay is defined as:
+
+```text
+Delay
+= Time(Output Threshold)
+  - Time(Input Threshold)
+
+Delay = Out - In
+```
+
+Since the output occurs after the input, the delay should normally be positive.
+
+---
+
+##### Example: Positive Delay
+
+Given:
+
+```text
+In Rise Threshold Time  = 3.207 ns
+Out Fall Threshold Time = 3.230 ns
+
+Delay = 3.230 − 3.207
+Delay = 23 ps
+```
+
+This is a valid propagation delay.
+
+<img width="643" height="403" alt="image" src="https://github.com/user-attachments/assets/a695d3de-3700-42af-a371-50fadad1f020" />
+
+
+---
+
+### 3. Negative Delay Problem
+
+Negative delays are generally undesirable and indicate either:
+
+1. Incorrect threshold selection
+2. Poor circuit implementation
+
+---
+
+#### Case 1: Improper Threshold Selection
+
+Suppose threshold points are moved upward on the waveform.
+
+```text
+Input Threshold Time  = 3.263 ns
+Output Threshold Time = 3.221 ns
+
+Delay = 3.221 − 3.263
+Delay = −42 ps
+```
+<img width="1191" height="682" alt="image" src="https://github.com/user-attachments/assets/b731544e-8d00-41b9-99ae-0d3d2c8613c8" />
+
+##### Reason
+
+The threshold points were chosen incorrectly, causing the output crossing point to appear before the input crossing point.
+
+---
+
+#### Case 2: Excessive Wire Delays
+
+Even with correct threshold choices, long interconnects can create heavily degraded waveforms.
+
+Example:
+
+```text
+Input Threshold Time  = 4.215 ns
+Output Threshold Time = 4.207 ns
+
+Delay = 4.207 − 4.215
+Delay = −8 ps
+```
+<img width="1243" height="693" alt="image" src="https://github.com/user-attachments/assets/012b4be0-e315-434e-b9b4-405605615658" />
+
+##### Possible Causes
+
+- Large wire parasitics
+- Excessive routing delay
+- Poor physical placement
+- Long distance between cells
+
+---
+
+#### Important Observation
+
+Negative delays can occur due to:
+
+- Incorrect timing threshold definitions
+- Poor layout implementation
+- Excessive interconnect delay
+
+Therefore:
+
+> Correct threshold selection and good circuit design are essential during characterization.
+
+---
+
+### 4. Transition Time (Slew) Measurement
+
+Transition time represents how fast a signal changes state.
+
+#### Rise Transition
+
+```text
+Rise Transition
+= Time(80% VDD)
+  - Time(20% VDD)
+
+Rise Slew
+= Slew High Rise Threshold
+  - Slew Low Rise Threshold
+```
+
+---
+
+#### Fall Transition
+
+```text
+Fall Transition
+= Time(80% VDD)
+  - Time(20% VDD)
+
+Fall Slew
+= Slew High Fall Threshold
+  - Slew Low Fall Threshold
+```
+<img width="1307" height="697" alt="image" src="https://github.com/user-attachments/assets/d0e804c2-bb0b-4e60-aa15-e2bbdbd1b0cf" />
+
+---
+
+
+### Key Takeaways - TIMING CHARACTERIZATION
+
+Although a standard cell such as an **inverter** appears simple, it undergoes a complete development flow involving:
+
+✅ Timing characterization depends on properly defined threshold points.
+✅ 50% thresholds are widely used for propagation delay calculations.
+✅ 20%-80% thresholds are widely used for slew calculations.
+✅ Delay should ideally be positive.
+✅ Negative delays can result from:
+  - Wrong threshold selection
+  - Excessive wire parasitics
+  - Poor circuit layout
+
+---
+
+
+#### 📂 Resources
 ```text
 └── resources/
     ├── lecture_videos
