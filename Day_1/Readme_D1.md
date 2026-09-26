@@ -237,6 +237,7 @@ Start OpenLANE in interactive mode:
 bash~4.2$ ./flow.tcl -interactive
 ```
 This opens the OpenLANE flow and brings the prompt to %
+<img width="1280" height="768" alt="openlane stepsdocker_n_flow" src="https://github.com/user-attachments/assets/48ac8c05-1d16-4e36-a08c-b3b3758d4b9d" />
 
 Load the OpenLANE package:
 
@@ -256,7 +257,7 @@ This step:
 - Loads configuration files
 - Generates merged LEF files
 - Sets up project structure
-
+<img width="1280" height="768" alt="VirtualBox_vsdworkshop_24_09_2026_06_11_15 openlane_2" src="https://github.com/user-attachments/assets/0a42fa85-b628-4cb5-9348-98140cb96e6c" />
 ---
 
 # Generated Run Structure
@@ -303,6 +304,7 @@ Benefits:
 - Faster execution
 - Simplified processing
 
+
 ---
 
 # Running Synthesis
@@ -312,6 +314,7 @@ Start synthesis:
 ```tcl
 % run_synthesis
 ```
+
 
 ### Synthesis Stages
 
@@ -323,12 +326,6 @@ Start synthesis:
 
 ### Output
 
-```text
-RTL
- ↓
-Gate-Level Netlist
-```
-
 Generated netlists can be found in:
 
 ```text
@@ -337,33 +334,6 @@ runs/<date>/results/synthesis/
 
 ---
 
-# OpenLANE Flow Order
-
-The flow must be executed sequentially.
-
-```text
-prep
- ↓
-run_synthesis
- ↓
-run_floorplan
- ↓
-run_placement
- ↓
-run_cts
- ↓
-run_routing
- ↓
-run_magic
- ↓
-run_lvs
- ↓
-run_drc
-```
-
-Each stage depends on outputs from the previous stage.
-
----
 
 # OpenLANE Inputs and Outputs
 
@@ -380,14 +350,6 @@ Each stage depends on outputs from the previous stage.
 - Routed Design
 - GDSII Layout
 
-```text
-RTL + PDK
-        ↓
-     OpenLANE
-        ↓
-      GDSII
-```
-
 ---
 
 # Synthesis Statistics
@@ -402,22 +364,13 @@ D Flip-Flops     = 1,634
 Total Chip Area = 
 
 In My RUN
-Total Cells      = 
+Total Cells      = 14876
 D Flip-Flops     = 1,613
 
-Total Chip Area = 
+Total Chip Area = 148708.87
 ```
 
 ## Flop Ratio Calculation
-
-Formula:
-
-```text
-Flop Ratio =
-(Number of DFFs / Total Cells) × 100
-```
-
-Calculation:
 
 ```text
 In VIDEO LECTURE
@@ -425,15 +378,13 @@ In VIDEO LECTURE
 = 9.43%
 
 In MY RUN
-(/) x 100
-=
+```(1613/14876)*100 = 10.84 %
 ```
 
-### Result
+<img width="640" height="337" alt="Synthesis_dff_ total cell count" src="https://github.com/user-attachments/assets/a60f17cf-6566-44f9-bf4c-4e833c316149" />
+<img width="640" height="337" alt="VirtualBox_vsdworkshop_23_09_2026_18_49_18 synthesis stat report dff count" src="https://github.com/user-attachments/assets/c2186c82-1ccd-49e2-b587-a50b544748d1" />
 
-```text
-Flop Ratio = 9.43%
-```
+
 
 ---
 
