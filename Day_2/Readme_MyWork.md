@@ -69,7 +69,7 @@ The highlighted values indicate the **priority** of files in **descending order*
 ---
 ---
 
-### 1. FLOORPLAN COMMAND EXECUTED
+### 2. FLOORPLAN COMMAND EXECUTED
 
 ```
 % run_floorplan
@@ -93,3 +93,62 @@ Logs created after floorplan - giving details like die area and chip area
     - This is my interpretation - i can't authenticate it as of now - due to limited knowledge at present
 
 <img width="1280" height="768" alt="VB_vsd_memory_Metal_Layer" src="https://github.com/user-attachments/assets/f5a068c4-a7ac-4077-aa4b-2aa7671b021e" />
+
+### 2a. MAGIC - TO VIEW FLOORPLAN SO CREATED
+##### command to be executed To view the layout in magic
+```
+~/Desktop/work/tools/openlane_working_directory/openlane/designs/picorv32a/runs/date/results/floorplan$ magic -T ~/Desktop/ork/tools/openlane_working_directory/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+
+<img width="1280" height="674" alt="10  VirtualBox_vsdworkshop_23_09_2026_20_54_29 Floorplan_Magic" src="https://github.com/user-attachments/assets/d7194dad-d82e-4f95-aa12-d64cdcc2cef1" />
+
+The input output pins are equi-spaced and all the standard cells are collated at the bottom left corner
+
+<img width="1280" height="674" alt="11  VirtualBox_vsdworkshop_23_09_2026_21_09_48 euispaced pins" src="https://github.com/user-attachments/assets/d1cd1635-bba6-4602-862a-1f8aff99abc4" />
+
+<img width="1280" height="674" alt="12  VirtualBox_vsdworkshop_23_09_2026_21_11_16 equispaced pins CellClustered" src="https://github.com/user-attachments/assets/f301092e-603e-40b6-9959-ad7985d995be" />
+
+The horizontal IO pins are attached to metal 2 -- 1 less than FP_TO_HMETAL (3) as per config.tcl in design runs folder
+
+<img width="1280" height="674" alt="13  VirtualBox_vsdworkshop_23_09_2026_21_14_55 HcomponentSelect_what" src="https://github.com/user-attachments/assets/00a67932-0319-4dd6-9a48-717432fa2816" />
+
+The vertical IO pins are attached to metal 3 -- 1 less than FP_TO_VMETAL (4) as per config.tcl in design runs folder
+
+<img width="1280" height="674" alt="14  VirtualBox_vsdworkshop_23_09_2026_21_17_01 VcomponentSelect_what" src="https://github.com/user-attachments/assets/bf5dee84-929e-409b-8b5e-fca6bf048217" />
+
+Tap Cells diagonally alligned
+
+<img width="1280" height="674" alt="15  VirtualBox_vsdworkshop_23_09_2026_21_21_05 tap cells" src="https://github.com/user-attachments/assets/3c0184eb-67b5-4377-9df0-adda51fea031" />
+
+DeCap Cells at the IO pads
+
+<img width="1280" height="674" alt="16  VirtualBox_vsdworkshop_23_09_2026_21_23_58 decapCells" src="https://github.com/user-attachments/assets/7e9f3f28-f887-408f-b61f-b9893c927782" />
+
+one of the Standard cells collated at the bottom left corner
+<img width="1280" height="674" alt="17  VirtualBox_vsdworkshop_23_09_2026_21_30_30 standardCellCluster" src="https://github.com/user-attachments/assets/2f1bc681-7edf-40a2-9fa8-d9ace5fb8620" />
+another Standard cell collated at the bottom left corner
+<img width="1280" height="674" alt="18  VirtualBox_vsdworkshop_23_09_2026_21_36_10 instance StandardCell" src="https://github.com/user-attachments/assets/dc49a8a9-db58-40f4-a561-233db76c3078" />
+
+
+### 3. PLACEMENT COMMAND EXECUTED and MAGIC - TO VIEW FLOORPLAN SO CREATED
+```
+% run_placement
+```
+##### command to be executed To view the layout in magic
+```
+~/Desktop/work/tools/openlane_working_directory/openlane/designs/picorv32a/runs/date/results/placement$ magic -T ~/Desktop/ork/tools/openlane_working_directory/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+set :: env(SYNTH_   )  was default
+<img width="1280" height="674" alt="19  VirtualBox_vsdworkshop_23_09_2026_21_58_59 standardCell_Placement" src="https://github.com/user-attachments/assets/bf80e008-e6e8-4dce-bf2a-65286991a964" />
+
+Expanded view showing cell abutment
+
+<img width="1280" height="674" alt="20  VirtualBox_vsdworkshop_23_09_2026_22_03_28 expanded view placement" src="https://github.com/user-attachments/assets/1aee3eba-a0da-40c0-ade5-0fdef4896606" />
+
+### 4. Exploring various switch values
+1. set :: env(FP_TO_MODE) 2
+   changes the way IO pins are placed around the periphery of the chip
+
+<img width="1280" height="674" alt="21  VirtualBox_vsdworkshop_23_09_2026_22_21_47 changes_on_Fly_pinSetting_2" src="https://github.com/user-attachments/assets/bf43cc97-a9ee-4cfa-8756-190d9f78b3b9" />
+
+2. exploring with set :: env(SYNTH_   )  
