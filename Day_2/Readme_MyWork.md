@@ -14,7 +14,8 @@ Values taken for certain switches for the flow of execution of the design as per
 - core utilization = 50
 - FP_TO_VMETAL = 3
 - FP_TO_HMETAL = 4
-- clock = 
+- clock =
+- FP_IO_MODE = 1 - random but equi-spaced IO pins
 ---
 
 ### design specific config file - higher priority than floorplan.tcl (tool default file)
@@ -144,7 +145,6 @@ another Standard cell collated at the bottom left corner
 ~/Desktop/work/tools/openlane_working_directory/openlane/designs/picorv32a/runs/date/results/placement$ magic -T ~/Desktop/ork/tools/openlane_working_directory/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
 ##### set :: env(SYNTH_STRATEGY)  was default
-
 <img width="1280" height="674" alt="19  VirtualBox_vsdworkshop_23_09_2026_21_58_59 standardCell_Placement" src="https://github.com/user-attachments/assets/bf80e008-e6e8-4dce-bf2a-65286991a964" />
 
 the standard cells collated at the bottom left corner during floorplan are placed in the core area after the run_placement command
@@ -157,14 +157,17 @@ Expanded view showing cell abutment and alignment with power and ground rails
 
 ### 4. Exploring various switch values
 1. set :: env(FP_TO_MODE) 2
-   changes the way IO pins are placed around the periphery of the chip - though the output does not matches with the one shown in lecture vidoe
+
+  - changes the way IO pins are placed around the periphery of the chip
+  - though the output does not matches with the one shown in lecture video
 
 <img width="1280" height="674" alt="21  VirtualBox_vsdworkshop_23_09_2026_22_21_47 changes_on_Fly_pinSetting_2" src="https://github.com/user-attachments/assets/bf43cc97-a9ee-4cfa-8756-190d9f78b3b9" />
 
-2. exploring with set :: env(SYNTH_STRATEGY)  
-
+2. exploring with set :: env(SYNTH_STRATEGY)
+   ```  
      set :: env(SYNTH_STRATEGY) "AREA 2"
-<img width="1280" height="768" alt="22  magic_area2" src="https://github.com/user-attachments/assets/29bf2bf3-4e5c-492b-b29c-bcd825209d1f" />
+   ```
+   <img width="1280" height="768" alt="22  magic_area2" src="https://github.com/user-attachments/assets/29bf2bf3-4e5c-492b-b29c-bcd825209d1f" />
 
      set :: env(SYNTH_STRATEGY) "AREA 0"
 <img width="1280" height="768" alt="23  magic_area0" src="https://github.com/user-attachments/assets/d8d64594-7ab0-4522-a4b8-3b329ee3dd7d" />
@@ -172,27 +175,28 @@ Expanded view showing cell abutment and alignment with power and ground rails
      set :: env(SYNTH_STRATEGY) DEFAULT
 <img width="1280" height="768" alt="24  magic_synth_strategy_no_value" src="https://github.com/user-attachments/assets/2b5aa300-cb48-4d52-b3aa-738fe03f084a" />
 
-3. TOP MOST METAL LAYERS
+4. TOP MOST METAL LAYERS
+   
     Topmost Vertical Metal Layer - Metal 4
-   <img width="1280" height="768" alt="26  VB_vsd_D3_magic_topmost layer metal4" src="https://github.com/user-attachments/assets/f6479fe8-523e-4ee3-83fb-bf3104d129b4" />
+<img width="1280" height="768" alt="26  VB_vsd_D3_magic_topmost layer metal4" src="https://github.com/user-attachments/assets/f6479fe8-523e-4ee3-83fb-bf3104d129b4" />
 
    Topmost Horizontal Metal Layer - Metal 5
-   <img width="1280" height="768" alt="25  VB_vsd_D3_magic_topmost layer metal5" src="https://github.com/user-attachments/assets/5cf50740-aa97-4679-86c2-e4f0f72b89be" />
+<img width="1280" height="768" alt="25  VB_vsd_D3_magic_topmost layer metal5" src="https://github.com/user-attachments/assets/5cf50740-aa97-4679-86c2-e4f0f72b89be" />
 
-5. Experimentation that ran into errors
+### 5. Experimentation that ran into errors
 
    With any of the permissible values between 0 and 3 for DELAY in the SYNTH_STRATEGY switch
    THE execution ran into placement errors and aborted
 
    set :: env(SYNTH_STRATEGY) "DELAY 0"
 
-   Errors referring to --- some sky130A_  files missing 
+   Errors referring to --- some sky130A_  **files missing**
 
 <img width="1280" height="768" alt="27  Placement_error_notFindingLibDefinition" src="https://github.com/user-attachments/assets/334a1494-6a7a-4a3c-bbd5-1e74c33ce9de" />
 
 
 
-  > STILL NEED TO FIND REASONS and HOW to CORRECT IT
+  > ##### STILL NEED TO FIND REASONS and HOW to CORRECT IT
    
 
 
