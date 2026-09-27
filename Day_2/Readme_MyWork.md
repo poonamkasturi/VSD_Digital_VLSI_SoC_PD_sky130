@@ -94,6 +94,8 @@ Logs created after floorplan - giving details like die area and chip area
 
 <img width="1280" height="768" alt="VB_vsd_memory_Metal_Layer" src="https://github.com/user-attachments/assets/f5a068c4-a7ac-4077-aa4b-2aa7671b021e" />
 
+---
+
 ### 2a. MAGIC - TO VIEW FLOORPLAN SO CREATED
 ##### command to be executed To view the layout in magic
 ```
@@ -129,6 +131,9 @@ one of the Standard cells collated at the bottom left corner
 another Standard cell collated at the bottom left corner
 <img width="1280" height="674" alt="18  VirtualBox_vsdworkshop_23_09_2026_21_36_10 instance StandardCell" src="https://github.com/user-attachments/assets/dc49a8a9-db58-40f4-a561-233db76c3078" />
 
+---
+---
+
 
 ### 3. PLACEMENT COMMAND EXECUTED and MAGIC - TO VIEW FLOORPLAN SO CREATED
 ```
@@ -138,17 +143,56 @@ another Standard cell collated at the bottom left corner
 ```
 ~/Desktop/work/tools/openlane_working_directory/openlane/designs/picorv32a/runs/date/results/placement$ magic -T ~/Desktop/ork/tools/openlane_working_directory/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
-set :: env(SYNTH_   )  was default
+##### set :: env(SYNTH_STRATEGY)  was default
+
 <img width="1280" height="674" alt="19  VirtualBox_vsdworkshop_23_09_2026_21_58_59 standardCell_Placement" src="https://github.com/user-attachments/assets/bf80e008-e6e8-4dce-bf2a-65286991a964" />
 
-Expanded view showing cell abutment
+the standard cells collated at the bottom left corner during floorplan are placed in the core area after the run_placement command
+<img width="1280" height="768" alt="19a  VB_vsd_D3_pre_post_placement" src="https://github.com/user-attachments/assets/701a7205-561b-4480-9a27-cb60827403ff" />
+
+
+Expanded view showing cell abutment and alignment with power and ground rails
 
 <img width="1280" height="674" alt="20  VirtualBox_vsdworkshop_23_09_2026_22_03_28 expanded view placement" src="https://github.com/user-attachments/assets/1aee3eba-a0da-40c0-ade5-0fdef4896606" />
 
 ### 4. Exploring various switch values
 1. set :: env(FP_TO_MODE) 2
-   changes the way IO pins are placed around the periphery of the chip
+   changes the way IO pins are placed around the periphery of the chip - though the output does not matches with the one shown in lecture vidoe
 
 <img width="1280" height="674" alt="21  VirtualBox_vsdworkshop_23_09_2026_22_21_47 changes_on_Fly_pinSetting_2" src="https://github.com/user-attachments/assets/bf43cc97-a9ee-4cfa-8756-190d9f78b3b9" />
 
-2. exploring with set :: env(SYNTH_   )  
+2. exploring with set :: env(SYNTH_STRATEGY)  
+
+     set :: env(SYNTH_STRATEGY) "AREA 2"
+<img width="1280" height="768" alt="22  magic_area2" src="https://github.com/user-attachments/assets/29bf2bf3-4e5c-492b-b29c-bcd825209d1f" />
+
+     set :: env(SYNTH_STRATEGY) "AREA 0"
+<img width="1280" height="768" alt="23  magic_area0" src="https://github.com/user-attachments/assets/d8d64594-7ab0-4522-a4b8-3b329ee3dd7d" />
+
+     set :: env(SYNTH_STRATEGY) DEFAULT
+<img width="1280" height="768" alt="24  magic_synth_strategy_no_value" src="https://github.com/user-attachments/assets/2b5aa300-cb48-4d52-b3aa-738fe03f084a" />
+
+3. TOP MOST METAL LAYERS
+    Topmost Vertical Metal Layer - Metal 4
+   <img width="1280" height="768" alt="26  VB_vsd_D3_magic_topmost layer metal4" src="https://github.com/user-attachments/assets/f6479fe8-523e-4ee3-83fb-bf3104d129b4" />
+
+   Topmost Horizontal Metal Layer - Metal 5
+   <img width="1280" height="768" alt="25  VB_vsd_D3_magic_topmost layer metal5" src="https://github.com/user-attachments/assets/5cf50740-aa97-4679-86c2-e4f0f72b89be" />
+
+5. Experimentation that ran into errors
+
+   With any of the permissible values between 0 and 3 for DELAY in the SYNTH_STRATEGY switch
+   THE execution ran into placement errors and aborted
+
+   set :: env(SYNTH_STRATEGY) "DELAY 0"
+
+   Errors referring to --- some sky130A_  files missing 
+
+<img width="1280" height="768" alt="27  Placement_error_notFindingLibDefinition" src="https://github.com/user-attachments/assets/334a1494-6a7a-4a3c-bbd5-1e74c33ce9de" />
+
+
+
+  > STILL NEED TO FIND REASONS and HOW to CORRECT IT
+   
+
+
