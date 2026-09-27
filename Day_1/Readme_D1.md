@@ -224,41 +224,125 @@ Higher levels override lower-level settings.
 
 # Launching OpenLANE
 
-run docker command to come in bash mode
-
 directory hierarchy
 ```
 ~/Desktop/work/tools/openlane_working_dir/openlane $ docker
 ```
 
-Start OpenLANE in interactive mode:
+##### `$`
+- Represents the **shell prompt** (common in Linux/macOS terminals).
+- Indicates you are typing a command into the terminal.
+
+#### `docker`
+- Refers to the **Docker Command Line Interface (CLI)**.
+- Communicates with the **Docker daemon (`dockerd`)** to perform container-related operations.
+- Used to build, run, manage, and share containers.
+
+```
+Docker is a platform that lets you package applications into containers—lightweight,
+portable environments that run consistently across different systems.
+
+The `$ docker` command is the entry point for interacting with Docker from the terminal.
+```
+---
+
 
 ```bash
-bash~4.2$ ./flow.tcl -interactive
+bash-4.2$ ./flow.tcl -interactive
 ```
+
+##### `bash-4.2$`
+- Represents the **shell prompt**.
+- Indicates you are inside a **Bash shell (version 4.2)**.
+- The `$` shows you are a regular user (not root).
+
+##### `./flow.tcl`
+- Runs the script named **`flow.tcl`** located in the **current directory** (`./` means “here”).
+- In OpenLane, `flow.tcl` is the **main driver script** that controls the ASIC design flow (RTL-to-GDSII).
+
+##### `-interactive`
+- A **flag/option** passed to the script.
+- Tells OpenLane to start in **interactive mode**.
+- Instead of running the entire flow automatically, you drop into a Tcl shell where you can run commands step by step (e.g., `prep`, `run_synthesis`, `run_floorplan`, etc.).
+- Useful for **debugging, experimenting, or customizing** the flow.
+
 This opens the OpenLANE flow and brings the prompt to %
+
+```
+This command executes the `flow.tcl` script in the current directory 
+starts OpenLane in **interactive mode**,
+allowing to manually control each stage of the ASIC design flow.
+```
+
 <img width="1280" height="768" alt="openlane stepsdocker_n_flow" src="https://github.com/user-attachments/assets/48ac8c05-1d16-4e36-a08c-b3b3758d4b9d" />
 
-Load the OpenLANE package:
+---
 
+#### Load the OpenLANE package:
 ```tcl
 % package require openlane 0.9
 ```
 
-Prepare the design:
+##### `%`
+- Represents the **Tcl shell prompt**.
+- Indicates that the command is being run inside a Tcl interpreter.
+
+##### `package`
+- Tcl uses a **modular system** where functionality is grouped into packages.
+- The `package` command is used to **load, query, or manage** these packages.
+
+##### `require`
+- Subcommand of `package`.
+- Tells Tcl: *“I need this package to be available.”*
+- If the package is not already loaded, Tcl will attempt to load it.
+
+##### `openlane`
+- The **name of the package** being requested.
+- Refers to **OpenLane**, an open-source automated RTL-to-GDSII flow for digital ASIC design.
+
+##### `0.9`
+- Specifies the **version number** of the package.
+- Tcl will try to load **exactly version 0.9** (or a compatible one, depending on how the package is defined).
+
+```
+This command ensures that the **OpenLane package (version 0.9)** is loaded into the Tcl environment
+Making its commands and functionality available for use in ASIC design flows.
+```
+---
+
+#### Prepare the design:
 
 ```tcl
 % prep -design picorv32a
 ```
 
+##### `prep`
+- An **OpenLane-specific Tcl command**.
+- Prepares the working directory and environment for a design run.
+- Sets up configuration files, copies design sources, and initializes the flow for synthesis, floorplanning, placement, and routing.
+
+##### `-design`
+- An **option/flag** passed to the `prep` command.
+- Specifies which design you want to prepare.
+- Expects the name of a design directory inside OpenLane’s `designs/` folder.
+
+##### `picorv32a`
+- The **name of the design** being prepared.
+- Refers to a small **RISC-V CPU core design** included in OpenLane’s example set.
+- OpenLane will look for the `designs/picorv32a` folder and use its configuration files (`config.tcl`, constraints, etc.) to set up the flow.
+
+```
+This command tells OpenLane to **prepare the design environment for the `picorv32a` RISC-V core**,
+using its configuration files and sources, so that the ASIC design flow can be executed.
+```
 This step:
 
 - Creates run directories
 - Loads configuration files
 - Generates merged LEF files
 - Sets up project structure
+
 <img width="1280" height="768" alt="VirtualBox_vsdworkshop_24_09_2026_06_11_15 openlane_2" src="https://github.com/user-attachments/assets/0a42fa85-b628-4cb5-9348-98140cb96e6c" />
----
 
 # Generated Run Structure
 
