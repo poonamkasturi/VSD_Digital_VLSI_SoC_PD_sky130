@@ -445,7 +445,7 @@ In VIDEO LECTURE
 Total Cells      = 17,323
 D Flip-Flops     = 1,634
 
-Total Chip Area = 
+Total Chip Area = 236829.64
 
 In My RUN
 Total Cells      = 14876
@@ -468,6 +468,10 @@ In MY RUN
 <img width="640" height="337" alt="Synthesis_dff_ total cell count" src="https://github.com/user-attachments/assets/a60f17cf-6566-44f9-bf4c-4e833c316149" />
 <img width="640" height="337" alt="VirtualBox_vsdworkshop_23_09_2026_18_49_18 synthesis stat report dff count" src="https://github.com/user-attachments/assets/c2186c82-1ccd-49e2-b587-a50b544748d1" />
 
+---
+<img width="1280" height="768" alt="VirtualBox_vsdworkshop_27_09_2026_07_40_43 yosys synth dff_totalCell" src="https://github.com/user-attachments/assets/bcff3bd9-796f-4e31-a560-e72296c5235b" />
+
+<img width="1280" height="352" alt="VirtualBox_vsdworkshop_27_09_2026_07_41_33 yosys synth chipArea" src="https://github.com/user-attachments/assets/f955aabf-0fe2-4af0-ad68-e36fe5e53c72" />
 
 
 ---
